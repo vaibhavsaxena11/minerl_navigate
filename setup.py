@@ -14,10 +14,9 @@ setup(
     author_email="saxena.vaibhav96@gmail.com",
     url="https://github.com/vaibhavsaxena11/minerl_navigate",
     packages=["minerl_navigate"],
-    include_package_data=True,
     python_requires=">=3.7.*",
     install_requires=["numpy", "tensorflow>=2.4.1", "tensorflow-datasets>=4.2.0"],
-    license="MIT",
+    license="Attribution-NonCommercial-ShareAlike 4.0 International",
     classifiers=[
         "Intended Audience :: Science/Research",
         "Programming Language :: Python :: 3",
