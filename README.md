@@ -21,7 +21,7 @@ import tensorflow_datasets as tfds
 import minerl_navigate
 
 # Load dataset.
-dataset = tfds.load("minerl_navigate", data_dir='/path/for/data/download/')
+dataset = tfds.load("minerl_navigate", data_dir='/path/for/data/download/', shuffle_files=True)
 # Data will be downloaded to provided data_dir (first-time only).
 ...
 ```
