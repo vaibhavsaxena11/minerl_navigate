@@ -3,7 +3,6 @@
 import tensorflow as tf
 import tensorflow_datasets as tfds
 
-import numpy as np
 
 _DESCRIPTION = """
 The MineRL dataset was crowd sourced by Guss et al. (2019) for reinforcement learning applications. 
@@ -36,7 +35,7 @@ class MinerlNavigate(tfds.core.GeneratorBasedBuilder):
 
     VERSION = tfds.core.Version("1.0.0")
     RELEASE_NOTES = {
-        "1.0.0": "Initial release.",
+        "1.0.1": "Initial release.",
     }
 
     def _info(self) -> tfds.core.DatasetInfo:
