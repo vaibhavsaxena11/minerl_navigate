@@ -1,51 +1,18 @@
 # MineRL Navigate Video Dataset
 
-## Working with this dataset
+A dataset for long-term video prediction. It shows human players traversing
+worlds of the video game Minecraft, which include forests, mountains, oceans,
+and islands. The dataset contains 961 train videos and 255 test videos. Each
+video contains 500 images of size 64x64x3.
 
-### Install
+## Citation
 
-To install using pip, run:
-```
-$ python3.7 -m pip install minerl-navigate
-```
-
-Alternatively, to install from source: Clone the git repository and, from its root, run:
-```
-minerl_navigate$ python3.7 -m pip install .
-```
-
-**Note:** This package installs tensorflow and tensorflow-datasets as dependencies. If upgrading these will affect any of your current installations, we recommend installing minerl-navigate in a virtual environment.
-
-### How to use?
+The dataset was originally crowd-sourced by Guss et al. and preprocessed for
+video prediction by Saxena et al. If you use this dataset, please reference:
 
 ```
-import tensorflow_datasets as tfds
-import minerl_navigate
-
-# Load dataset.
-dataset = tfds.load("minerl_navigate", data_dir='/path/for/data/download/', shuffle_files=True)
-# Data will be downloaded to provided data_dir (first-time only).
-...
-```
-`dataset` has the following structure:
-```
-{
-    'test': <PrefetchDataset shapes: {video: (None, 64, 64, 3)}, types: {video: tf.uint8}>,
-    'train': <PrefetchDataset shapes: {video: (None, 64, 64, 3)}, types: {video: tf.uint8}>
-}
-```
-
-## About
-
-The MineRL dataset was crowd sourced by Guss et al. (2019) for reinforcement learning applications. The dataset shows human players traveling to goal coordinates in procedurally generated 3D worlds of the video game Minecraft, traversing forests, mountains, villages, and oceans.
-
-To create a video prediction dataset, we combined the human demonstrations for the `Navigate` and `Navigate Extreme` tasks and split them into non-overlapping sequences of length 500. The dataset contains 961 training videos and 225 test videos as individual MP4 files. Additional metadata is stored in JSON format and contains the actions taken by the players in the game and the angle between the forward direction and the direction to the goal.
-
-**References:**
-
-```
-@misc{saxena2021clockworkvae,
-  title={Clockwork Variational Autoencoders}, 
+@article{saxena2021clockworkvae,
+  title={Clockwork Variational Autoencoders},
   author={Saxena, Vaibhav and Ba, Jimmy and Hafner, Danijar},
   journal={arXiv preprint arXiv:2102.09532},
   year={2021},
@@ -60,3 +27,43 @@ To create a video prediction dataset, we combined the human demonstrations for t
   year={2019},
 }
 ```
+
+## Instructions
+
+Installation:
+
+```sh
+pip3 install minerl-navigate
+```
+
+Usage example:
+
+```python
+import tensorflow as tf
+import tensorflow_datasets as tfds
+import minerl_navigate
+
+dataset = tfds.load('minerl_navigate', shuffle_files=True)
+
+test = dataset['test']
+
+train = dataset['train'].repeat()
+train = train.flat_map(lambda x: tf.data.Dataset.from_tensor_slices(
+    tf.reshape(x['video'], (5, 100, 64, 64, 3))))
+train = train.shuffle(5000).batch(50).prefetch(1)
+
+for batch in train:
+  assert batch.shape == (50, 100, 64, 64, 3)
+  assert batch.dtype == tf.uint8
+  break
+```
+
+## Creation
+
+The video dataset was created by combining the *Navigate* and *Navigate
+Extreme* tasks, splitting them into non-overlapping sequences of length 500,
+splitting them into train and test sets, and storing the videos as MP4 files.
+Optionally, the action sequences are available in JSON format. Instead of using
+the data loader, the data can also be [downloaded][download] manually.
+
+[download]: https://archive.org/details/minerl_navigate
