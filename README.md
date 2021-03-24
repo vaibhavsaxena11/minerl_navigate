@@ -1,9 +1,13 @@
 # MineRL Navigate Video Dataset
 
+[![PyPI](https://img.shields.io/pypi/v/minerl_navigate.svg)](https://pypi.python.org/pypi/minerl-navigate/#history)
+
 A dataset for long-term video prediction. It shows human players traversing
 worlds of the video game Minecraft, which include forests, mountains, oceans,
 and islands. The dataset contains 961 train videos and 255 test videos. Each
 video contains 500 images of size 64x64x3.
+
+<img src="https://github.com/vaibhavsaxena11/minerl_navigate/raw/main/preview.gif" width="100%"/>
 
 ## Citation
 
